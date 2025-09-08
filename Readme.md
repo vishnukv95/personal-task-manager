@@ -4,6 +4,20 @@ A full-stack task manager application built using **MongoDB, Express.js, React, 
 Users can register, log in, and manage their tasks (add, edit, delete, mark complete).
 
 ---
+## Frontend deployed on vercel
+ # https://personal-task-manager-hazel.vercel.app/
+
+## Backend deployen on render
+ # https://personal-task-manager-f1o7.onrender.com
+
+
+
+### LOGIN 
+ # Email : admin@gmail.com
+ # Password : 123456
+
+
+
 
 ## 🚀 Features
 - User authentication (JWT + Cookies)
@@ -34,16 +48,16 @@ Users can register, log in, and manage their tasks (add, edit, delete, mark comp
 ##  Project Structure
 
 
-task-manager/
+PERSONAL TSAK MANAGER/
 │
-├── backend/
+├── server/
 │ ├── controllers/ # Business logic
 │ ├── models/ # Mongoose schemas
 │ ├── routes/ # API routes
 │ ├── middlewares/ # Auth middleware
 │ └── server.js # Entry point
 │
-├── frontend/
+├── client/
 │ ├── src/
 │ │ ├── components/ # Header, Footer etc.
 │ │ ├── pages/ # Login, Register, Dashboard
