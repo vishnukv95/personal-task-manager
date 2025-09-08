@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 const api = import.meta.env.VITE_API_URL
-const Login = () => {
+const Login = ({setUser}) => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,7 +18,7 @@ const Login = () => {
       
      localStorage.setItem("token", res.data.token);
      localStorage.setItem("user",JSON.stringify(res.data.user))
-    
+     setUser(res.data.user)
       navigate("/dashboard");
       
 

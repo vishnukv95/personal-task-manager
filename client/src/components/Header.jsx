@@ -1,22 +1,13 @@
 
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Link,useNavigate } from 'react-router-dom';
 
-const Header = () => {
+const Header = ({user,setUser}) => {
 const navigate = useNavigate()
 const [open, setOpen] = useState(false);
-const [user,setUser] = useState(false)
 
-useEffect(()=>{
-  const token = localStorage.getItem("token");
-  const storedUser = JSON.parse(localStorage.getItem("user"));
 
-  if (token && storedUser) {
-    setUser(storedUser);
-  } else {
-    setUser(null); 
-  }
-    },[])
+
 
   const handleLogout = async () => {
      localStorage.removeItem("user");
