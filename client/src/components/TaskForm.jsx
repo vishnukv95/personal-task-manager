@@ -15,21 +15,29 @@ const TaskForm = ({ editTask, setEditTask, addTask, updateTask }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!title.trim()) return;
-
+    const token = localStorage.getItem("token");
     try {
       if (editTask) {
         const res = await axios.patch(
           `${api}/api/task/${editTask._id}`,
-          { title },
-          { withCredentials: true }
+          { title },{
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+         
         );
         updateTask(res.data);
         setEditTask(null);
       } else {
         const res = await axios.post(
           `${api}/api/task`,
-          { title },
-          { withCredentials: true }
+          { title },{
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+         
         );
         addTask(res.data);
       }

@@ -1,34 +1,28 @@
-import axios from 'axios';
+
 import React, { useEffect, useState } from 'react'
 import { Link,useNavigate } from 'react-router-dom';
-const api = import.meta.env.VITE_API_URL
+
 const Header = () => {
 const navigate = useNavigate()
 const [open, setOpen] = useState(false);
 const [user,setUser] = useState(false)
 
 useEffect(()=>{
-  const fetchData = async () => {
-      try {
-        const profileRes = await axios.get(`${api}/api/auth/profile`, {
-          withCredentials: true,
-        });
-        setUser(profileRes.data.user);
-      }catch(error){
-        console.log(error.message)
-      }
-     }
-      fetchData()
+  const token = localStorage.getItem("token");
+  const storedUser = JSON.parse(localStorage.getItem("user"));
+
+  if (token && storedUser) {
+    setUser(storedUser);
+  } else {
+    setUser(null); 
+  }
     },[])
 
   const handleLogout = async () => {
-  try {
-    await axios.post(`${api}/api/auth/logout`, {}, { withCredentials: true });
-    setUser(null);
-    navigate('/')
-  } catch (error) {
-    console.log(error.message);
-  }
+     localStorage.removeItem("user");
+     localStorage.removeItem("token");
+        setUser(null);
+        navigate('/');
 };
 
 const handleLogOutButton =()=>{
@@ -52,9 +46,11 @@ return (
           </button>:<Link to="/login" className="hover:text-gray-200">
             Login
           </Link>}
-          {user?"":<Link to="/register" className="hover:text-gray-200">
-            Register
-          </Link>}
+         {!user && (
+  <Link to="/register" className="hover:text-gray-200">
+    Register
+  </Link>
+)}
         </nav>
 
        
@@ -92,13 +88,11 @@ return (
         >
           Login
         </Link>}
-        <Link
-          to="/register"
-          className="block py-2 font-semibold hover:text-gray-200"
-          onClick={() => setOpen(false)}
-        >
-          Register
-        </Link>
+      {!user && (
+  <Link to="/register" className="hover:text-gray-200">
+    Register
+  </Link>
+)}
       </nav>
     </header>
   )

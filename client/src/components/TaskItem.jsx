@@ -4,11 +4,17 @@ import axios from "axios";
 const api = import.meta.env.VITE_API_URL
 
 const TaskItem = ({ task, deleteTask, updateTask, setEditTask }) => {
+  const token = localStorage.getItem("token")
   const handleToggle = async () => {
     try {
       const res = await axios.patch(
         `${api}/api/task/${task._id}`,
-        { completed: !task.completed }
+        { completed: !task.completed },
+        {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
       );
       updateTask(res.data);
     } catch (err) {
@@ -18,7 +24,11 @@ const TaskItem = ({ task, deleteTask, updateTask, setEditTask }) => {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`${api}/api/task/${task._id}`);
+      await axios.delete(`${api}/api/task/${task._id}`,{
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
       deleteTask(task._id);
     } catch (err) {
       console.error("Error deleting task:", err);
