@@ -14,13 +14,13 @@ const Dashboard = () => {
     const fetchData = async () => {
       try {
          const token = localStorage.getItem("token");
-         const savedUser = localStorage.getItem("user");
+         const savedUser =  JSON.parse(localStorage.getItem("user"));
             
          if (!token || !savedUser) {
           navigate("/login");
           return;
         }
-        setUser(JSON.parse(savedUser));
+        setUser(savedUser);
         const taskRes = await axios.get(`${api}/api/task`,{headers:{ Authorization: `Bearer ${token}` }});
         setTasks(taskRes.data);
       } catch (err) {

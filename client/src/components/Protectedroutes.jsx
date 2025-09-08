@@ -4,7 +4,7 @@ import Cookie from "js-cookie"
 
 const Protectedroutes = ({children})=>{
       
-    const token = Cookie.get("token")
+    const token = localStorage.getItem("token")
 
     if(!token) return <Navigate to="/login"/>
 
