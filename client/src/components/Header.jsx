@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Link,useNavigate } from 'react-router-dom';
-
+const api = import.meta.env.VITE_API_URL
 const Header = () => {
 const navigate = useNavigate()
 const [open, setOpen] = useState(false);
@@ -10,7 +10,7 @@ const [user,setUser] = useState(false)
 useEffect(()=>{
   const fetchData = async () => {
       try {
-        const profileRes = await axios.get("http://localhost:3000/api/auth/profile", {
+        const profileRes = await axios.get(`${api}/api/auth/profile`, {
           withCredentials: true,
         });
         setUser(profileRes.data.user);
@@ -23,7 +23,7 @@ useEffect(()=>{
 
   const handleLogout = async () => {
   try {
-    await axios.post("http://localhost:3000/api/auth/logout", {}, { withCredentials: true });
+    await axios.post(`${api}/api/auth/logout`, {}, { withCredentials: true });
     setUser(null);
     navigate('/')
   } catch (error) {

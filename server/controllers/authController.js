@@ -27,8 +27,8 @@ export const  register = async (req, res) => {
    
     user.password = undefined
    
-    res.cookie("token",token)
-   res.status(201).json({message:"account created",user });
+    
+   res.status(201).json({message:"account created",user,token });
 
 } catch (err) {
 console.error(err);
@@ -44,9 +44,13 @@ const user = await userModel.findOne({ email });
 if (!user) return res.status(400).json({error: 'Invalid credentials' });
 const isMatch = await bcrypt.compare(password, user.password);
 if (!isMatch) return res.status(400).json({error: 'Invalid credentials' });
+ if (!process.env.SECRET_KEY) {
+      console.error("SECRET_KEY missing!");
+      return res.status(500).json({ error: "Server misconfigured" });
+    }
 const token = jwt.sign({email:user.email}, process.env.SECRET_KEY);
- res.cookie("token",token)
-res.json({ message:"logged in",user: { id: user._id, name: user.name, email: user.email } });
+
+res.json({ message:"logged in",user: { id: user._id, name: user.name, email: user.email },token });
 } catch (err) {
 console.error(err);
 res.status(500).json({error: 'Server error' });
@@ -54,19 +58,5 @@ res.status(500).json({error: 'Server error' });
 };
 
 
-export const getProfile = async (req, res) => {
-  try {
-    if(!req.user) return res.status(401).json({error:"not authenticated"})
-        
-    res.status(200).json({user: req.user });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Server error" });
-  }
-};
 
 
-export const logoutUser = (req, res) => {
-  res.clearCookie("token"); 
-  return res.json({ message: "Logged out successfully" });
-};

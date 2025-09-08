@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
+const api = import.meta.env.VITE_API_URL
 const TaskForm = ({ editTask, setEditTask, addTask, updateTask }) => {
   const [title, setTitle] = useState("");
 
@@ -19,7 +19,7 @@ const TaskForm = ({ editTask, setEditTask, addTask, updateTask }) => {
     try {
       if (editTask) {
         const res = await axios.patch(
-          `http://localhost:3000/api/task/${editTask._id}`,
+          `${api}/api/task/${editTask._id}`,
           { title },
           { withCredentials: true }
         );
@@ -27,7 +27,7 @@ const TaskForm = ({ editTask, setEditTask, addTask, updateTask }) => {
         setEditTask(null);
       } else {
         const res = await axios.post(
-          "http://localhost:3000/api/task",
+          `${api}/api/task`,
           { title },
           { withCredentials: true }
         );

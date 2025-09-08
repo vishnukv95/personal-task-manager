@@ -1,13 +1,14 @@
 import React from "react";
 import axios from "axios";
 
+const api = import.meta.env.VITE_API_URL
+
 const TaskItem = ({ task, deleteTask, updateTask, setEditTask }) => {
   const handleToggle = async () => {
     try {
       const res = await axios.patch(
-        `http://localhost:3000/api/task/${task._id}`,
-        { completed: !task.completed },
-        { withCredentials: true }
+        `${api}/api/task/${task._id}`,
+        { completed: !task.completed }
       );
       updateTask(res.data);
     } catch (err) {
@@ -17,9 +18,7 @@ const TaskItem = ({ task, deleteTask, updateTask, setEditTask }) => {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://localhost:3000/api/task/${task._id}`, {
-        withCredentials: true,
-      });
+      await axios.delete(`${api}/api/task/${task._id}`);
       deleteTask(task._id);
     } catch (err) {
       console.error("Error deleting task:", err);

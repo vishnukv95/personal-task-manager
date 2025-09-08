@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import TaskForm from "../components/TaskForm";
 import TaskItem from "../components/TaskItem";
-
+const api = import.meta.env.VITE_API_URL
 const Dashboard = () => {
   const [user, setUser] = useState(null);
   const [tasks, setTasks] = useState([]);
@@ -13,14 +13,15 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const profileRes = await axios.get("http://localhost:3000/api/auth/profile", {
-          withCredentials: true,
-        });
-        setUser(profileRes.data.user);
-
-        const taskRes = await axios.get("http://localhost:3000/api/task", {
-          withCredentials: true,
-        });
+         const token = localStorage.getItem("token");
+         const savedUser = localStorage.getItem("user");
+            
+         if (!token || !savedUser) {
+          navigate("/login");
+          return;
+        }
+        setUser(JSON.parse(savedUser));
+        const taskRes = await axios.get(`${api}/api/task`,{headers:{ Authorization: `Bearer ${token}` }});
         setTasks(taskRes.data);
       } catch (err) {
         console.error("Error fetching data:", err);

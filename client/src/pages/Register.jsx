@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
+const api = import.meta.env.VITE_API_URL
 const Register = () => {
   const navigate = useNavigate();
 
@@ -15,9 +15,8 @@ const Register = () => {
      
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/auth/register",
-        data,
-        { withCredentials: true }
+        `${api}/api/auth/register`,
+        data
       );
       
       alert(res.data.message);
@@ -30,7 +29,7 @@ const Register = () => {
 
   return (
     <form
-      className="flex flex-col gap-6 max-w-sm mx-auto bg-inherit p-2"
+      className="flex flex-col gap-6 max-w-sm mx-auto mt-40 bg-inherit p-2"
       onSubmit={handleSubmit(handleFormSubmit)}
     >
       <h2 className="text-white font-extrabold text-2xl text-center">
